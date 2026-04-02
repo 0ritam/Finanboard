@@ -3,12 +3,14 @@ import { AppLayout } from './components/layout/AppLayout'
 import { ToastProvider } from './components/ui/Toast'
 import { CommandPalette } from './components/ui/CommandPalette'
 import { useTheme } from './hooks/useTheme'
+import { useInitializeData } from './hooks/useInitializeData'
 import DashboardPage from './pages/DashboardPage'
 import TransactionsPage from './pages/TransactionsPage'
 import InsightsPage from './pages/InsightsPage'
 
 export default function App() {
   useTheme()
+  useInitializeData()
 
   return (
     <ToastProvider>

@@ -21,7 +21,7 @@ export function BalanceTrendChart() {
         <h3 className="text-sm font-semibold text-text-primary mb-4">Balance Trend</h3>
         <div className="flex-1 min-h-64">
           <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
+            <AreaChart data={data} margin={{ top: 5, right: 10, bottom: 5, left: 0 }}>
               <defs>
                 <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
                   <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
@@ -40,7 +40,7 @@ export function BalanceTrendChart() {
                 tickLine={false}
                 tick={{ fontSize: 12, fill: 'var(--color-text-muted)' }}
                 tickFormatter={(v) => `$${(v / 1000).toFixed(0)}k`}
-                width={50}
+                width={55}
               />
               <Tooltip
                 contentStyle={{

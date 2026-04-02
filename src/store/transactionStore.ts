@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { Transaction, TransactionFilters } from '../types'
-import { mockTransactions } from '../data/mockTransactions'
+import * as api from '../api/mockApi'
 
 const defaultFilters: TransactionFilters = {
   search: '',
@@ -16,55 +16,65 @@ const defaultFilters: TransactionFilters = {
 interface TransactionState {
   transactions: Transaction[]
   filters: TransactionFilters
-  addTransaction: (tx: Omit<Transaction, 'id' | 'createdAt'>) => void
-  addTransactions: (txs: Omit<Transaction, 'id' | 'createdAt'>[]) => void
-  updateTransaction: (id: string, tx: Partial<Transaction>) => void
-  deleteTransaction: (id: string) => void
+  loading: boolean
+  initialized: boolean
+  initialize: () => Promise<void>
+  addTransaction: (tx: Omit<Transaction, 'id' | 'createdAt'>) => Promise<void>
+  addTransactions: (txs: Omit<Transaction, 'id' | 'createdAt'>[]) => Promise<void>
+  updateTransaction: (id: string, tx: Partial<Transaction>) => Promise<void>
+  deleteTransaction: (id: string) => Promise<void>
   setFilter: <K extends keyof TransactionFilters>(key: K, value: TransactionFilters[K]) => void
   resetFilters: () => void
 }
 
 export const useTransactionStore = create<TransactionState>()(
   persist(
-    (set) => ({
-      transactions: mockTransactions,
+    (set, get) => ({
+      transactions: [],
       filters: defaultFilters,
+      loading: false,
+      initialized: false,
 
-      addTransaction: (tx) =>
+      initialize: async () => {
+        // Skip if already has data from localStorage
+        if (get().initialized || get().transactions.length > 0) {
+          set({ initialized: true })
+          return
+        }
+        set({ loading: true })
+        const transactions = await api.fetchTransactions()
+        set({ transactions, loading: false, initialized: true })
+      },
+
+      addTransaction: async (tx) => {
+        const created = await api.createTransaction(tx)
         set((state) => ({
-          transactions: [
-            {
-              ...tx,
-              id: crypto.randomUUID(),
-              createdAt: new Date().toISOString(),
-            },
-            ...state.transactions,
-          ],
-        })),
+          transactions: [created, ...state.transactions],
+        }))
+      },
 
-      addTransactions: (txs) =>
+      addTransactions: async (txs) => {
+        const created = await api.createTransactionsBatch(txs)
         set((state) => ({
-          transactions: [
-            ...txs.map((tx) => ({
-              ...tx,
-              id: crypto.randomUUID(),
-              createdAt: new Date().toISOString(),
-            })),
-            ...state.transactions,
-          ],
-        })),
+          transactions: [...created, ...state.transactions],
+        }))
+      },
 
-      updateTransaction: (id, updates) =>
+      updateTransaction: async (id, updates) => {
+        await api.updateTransaction(id, updates)
         set((state) => ({
           transactions: state.transactions.map((tx) =>
             tx.id === id ? { ...tx, ...updates } : tx
           ),
-        })),
+        }))
+      },
 
-      deleteTransaction: (id) =>
+      deleteTransaction: async (id) => {
+        await api.deleteTransaction(id)
         set((state) => ({
           transactions: state.transactions.filter((tx) => tx.id !== id),
-        })),
+        }))
+      },
 
       setFilter: (key, value) =>
         set((state) => ({

@@ -1,25 +1,36 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import type { BudgetGoal, Category } from '../types'
+import * as api from '../api/mockApi'
 
 interface BudgetState {
   budgets: BudgetGoal[]
-  setBudget: (category: Category, limit: number) => void
-  removeBudget: (category: Category) => void
+  loading: boolean
+  initialized: boolean
+  initialize: () => Promise<void>
+  setBudget: (category: Category, limit: number) => Promise<void>
+  removeBudget: (category: Category) => Promise<void>
 }
 
 export const useBudgetStore = create<BudgetState>()(
   persist(
-    (set) => ({
-      budgets: [
-        { category: 'dining', limit: 400 },
-        { category: 'groceries', limit: 500 },
-        { category: 'entertainment', limit: 200 },
-        { category: 'transport', limit: 200 },
-        { category: 'shopping', limit: 300 },
-      ],
+    (set, get) => ({
+      budgets: [],
+      loading: false,
+      initialized: false,
 
-      setBudget: (category, limit) =>
+      initialize: async () => {
+        if (get().initialized || get().budgets.length > 0) {
+          set({ initialized: true })
+          return
+        }
+        set({ loading: true })
+        const budgets = await api.fetchBudgets()
+        set({ budgets, loading: false, initialized: true })
+      },
+
+      setBudget: async (category, limit) => {
+        await api.saveBudget(category, limit)
         set((state) => {
           const existing = state.budgets.findIndex((b) => b.category === category)
           if (existing >= 0) {
@@ -28,12 +39,15 @@ export const useBudgetStore = create<BudgetState>()(
             return { budgets: updated }
           }
           return { budgets: [...state.budgets, { category, limit }] }
-        }),
+        })
+      },
 
-      removeBudget: (category) =>
+      removeBudget: async (category) => {
+        await api.removeBudget(category)
         set((state) => ({
           budgets: state.budgets.filter((b) => b.category !== category),
-        })),
+        }))
+      },
     }),
     { name: 'budget-store' }
   )

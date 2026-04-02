@@ -20,7 +20,7 @@ export function SpendingBreakdown() {
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.4, duration: 0.4 }}
     >
-      <Card>
+      <Card className="overflow-hidden">
         <h3 className="text-sm font-semibold text-text-primary mb-4">Spending Breakdown</h3>
         <div className="flex flex-col sm:flex-row items-center gap-4">
           <div className="h-48 w-48 shrink-0">
@@ -70,7 +70,7 @@ export function SpendingBreakdown() {
                   <span className="text-sm font-medium text-text-primary tabular-nums">
                     {formatCurrency(item.amount)}
                   </span>
-                  <span className="text-xs text-text-muted w-10 text-right tabular-nums">{pct}%</span>
+                  <span className="text-xs text-text-muted w-12 text-right tabular-nums shrink-0">{pct}%</span>
                 </div>
               )
             })}
