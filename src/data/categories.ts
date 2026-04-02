@@ -74,7 +74,7 @@ export const CATEGORIES: Record<Category, CategoryConfig> = {
   education: {
     label: 'Education',
     icon: 'GraduationCap',
-    color: '#10b981',
+    color: '#3b82f6',
     bgColor: 'bg-indigo-100 dark:bg-indigo-900/30',
     type: 'expense',
   },

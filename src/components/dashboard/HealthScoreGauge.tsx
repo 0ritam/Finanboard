@@ -4,7 +4,7 @@ import { useHealthScore } from '../../hooks/useInsights'
 import { cn } from '../../utils/cn'
 
 function getScoreColor(score: number) {
-  if (score >= 80) return '#10b981'
+  if (score >= 80) return '#3b82f6'
   if (score >= 50) return '#f59e0b'
   return '#f43f5e'
 }

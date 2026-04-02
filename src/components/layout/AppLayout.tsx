@@ -10,7 +10,7 @@ export function AppLayout({ children }: { children: ReactNode }) {
   const isMobile = useIsMobile()
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-[#0d1519]">
+    <div className="min-h-screen bg-background">
       <Sidebar />
       <main
         className={cn(

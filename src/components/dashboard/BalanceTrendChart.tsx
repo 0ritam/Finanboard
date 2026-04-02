@@ -15,16 +15,17 @@ export function BalanceTrendChart() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.3, duration: 0.4 }}
+      className="h-full"
     >
-      <Card>
+      <Card className="h-full flex flex-col">
         <h3 className="text-sm font-semibold text-text-primary mb-4">Balance Trend</h3>
-        <div className="h-64">
+        <div className="flex-1 min-h-64">
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={data} margin={{ top: 5, right: 5, bottom: 5, left: 5 }}>
               <defs>
                 <linearGradient id="balanceGradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#10b981" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#10b981" stopOpacity={0} />
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--color-border)" vertical={false} />
@@ -54,11 +55,11 @@ export function BalanceTrendChart() {
               <Area
                 type="monotone"
                 dataKey="balance"
-                stroke="#10b981"
+                stroke="#3b82f6"
                 strokeWidth={2.5}
                 fill="url(#balanceGradient)"
                 dot={false}
-                activeDot={{ r: 5, strokeWidth: 2, fill: '#10b981' }}
+                activeDot={{ r: 5, strokeWidth: 2, fill: '#3b82f6' }}
               />
             </AreaChart>
           </ResponsiveContainer>

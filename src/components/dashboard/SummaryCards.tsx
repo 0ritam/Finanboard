@@ -45,7 +45,7 @@ export function SummaryCards() {
         icon={<Wallet size={20} className="text-primary" />}
         iconBg="bg-primary-light"
         sparklineData={balanceSparkline}
-        sparklineColor="#10b981"
+        sparklineColor="#3b82f6"
         delay={0}
       />
       <SummaryCard
@@ -55,7 +55,7 @@ export function SummaryCards() {
         icon={<TrendingUp size={20} className="text-income" />}
         iconBg="bg-income-light"
         sparklineData={incomeSparkline}
-        sparklineColor="#14b8a6"
+        sparklineColor="#22c55e"
         delay={0.1}
       />
       <SummaryCard
@@ -65,7 +65,7 @@ export function SummaryCards() {
         icon={<TrendingDown size={20} className="text-expense" />}
         iconBg="bg-expense-light"
         sparklineData={expenseSparkline}
-        sparklineColor="#f43f5e"
+        sparklineColor="#f97316"
         delay={0.2}
       />
       <SummaryCard

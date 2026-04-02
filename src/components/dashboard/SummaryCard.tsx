@@ -28,7 +28,7 @@ export function SummaryCard({
   icon,
   iconBg,
   sparklineData,
-  sparklineColor = '#10b981',
+  sparklineColor = '#3b82f6',
   delay = 0,
 }: SummaryCardProps) {
   return (

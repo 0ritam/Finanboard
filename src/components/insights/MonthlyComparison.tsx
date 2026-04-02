@@ -48,8 +48,8 @@ export function MonthlyComparison() {
                 wrapperStyle={{ fontSize: '12px' }}
                 formatter={(value) => <span className="text-text-secondary">{value}</span>}
               />
-              <Bar dataKey="income" name="Income" fill="#14b8a6" radius={[4, 4, 0, 0]} barSize={20} />
-              <Bar dataKey="expense" name="Expenses" fill="#f43f5e" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="income" name="Income" fill="#22c55e" radius={[4, 4, 0, 0]} barSize={20} />
+              <Bar dataKey="expense" name="Expenses" fill="#f97316" radius={[4, 4, 0, 0]} barSize={20} />
             </BarChart>
           </ResponsiveContainer>
         </div>
